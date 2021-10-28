@@ -50,7 +50,6 @@ int zbrojiKvadrate3(int polje[], int n){
     }
 
     int korijen = sqrt(*polje);
-    cout << "Korijen iznosi: " << korijen << endl;
 
     if (korijen * korijen == *polje){
         return  *polje + zbrojiKvadrate3(++polje, --n);
