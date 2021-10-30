@@ -36,7 +36,6 @@ public:
         //j is index, we are sending number of elements to copy so we need to put +1
         dest = resize(j + 1, dest);
 
-
         str = dest;
         delete[] dest;
 
@@ -62,9 +61,6 @@ public:
     }
 
 
-    string getString(){
-        return str;
-    }
 
     friend std::ostream& operator<<(std::ostream& os, const SanitizedString& str);
 
