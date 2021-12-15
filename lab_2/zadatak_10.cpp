@@ -10,6 +10,47 @@ void swapM(int& prvi, int& drugi){
 }
 
 
+void selection2Sort(int A[], int n, char smjer){
+
+    if (smjer == 0){
+        for (int i = 0; i < n / 2; i++){
+            int min = i;
+            int max = n - i - 1;
+            for (int j = i; j < n - i; j++){
+                if (A[min] > A[j]){
+                    min = j;
+                }
+                if (A[max] < A[j]){
+                    max = j;
+                }
+            }
+            swapM(A[min], A[i]);
+            if (i == max){
+                max = min;
+            }
+            swapM(A[max], A[n - i - 1]);
+        }
+    }
+    else{
+        for (int i = 0; i < n / 2; i++){
+            int max = i;
+            int min = n - i - 1;
+            for (int j = i; j < n - i; j++){
+                if (A[max] < A[j]){
+                    max = j;
+                }
+                if (A[min] > A[j]){
+                    min = j;
+                }
+            }
+            swapM(A[max], A[i]);
+            if (i == min){
+                min = max;
+            }
+            swapM(A[min], A[n - i - 1]);
+        }
+    }
+}
 
 int main(){
 
@@ -25,31 +66,14 @@ int main(){
     }
     cout << endl;
 
-    for (int i = 0; i < n / 2; i++){
+    selection2Sort(polje, n, 1);
 
-        int minIdx = i;
-        int maxIdx = n - 1 - i;
-
-        for (int j = i; j < n - i; j++){
-            if (polje[minIdx] > polje[j]){
-                minIdx = j;
-            }
-            if (polje[maxIdx] < polje[j]){
-                maxIdx = j;
-            }
-        }
-
-        swapM(polje[minIdx], polje[i]);
-        if (i == maxIdx)
-            maxIdx = minIdx;
-        swapM(polje[maxIdx], polje[n - 1 - i]);
-
-    }
-
-    cout << "start : ";
-    for (int k = 0; k < n; k++)
+    cout << "poslije : ";
+    for (int k = 0; k < n; k++){
         cout << polje[k] << " ";
+    }
     cout << endl;
+
 
     return 0;
 }
