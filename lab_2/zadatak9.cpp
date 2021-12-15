@@ -4,75 +4,84 @@
 using namespace std;
 
 class Zapis{
-public:
-    int postanski_broj;
-    string mjesto;
+private:
+    int broj;
+    string ime;
 
-    Zapis(int postanski_broj, string mjesto){
-        this->postanski_broj = postanski_broj;
-        this->mjesto = mjesto;
+public:
+    Zapis(int broj, string ime){
+        this->broj = broj;
+        this->ime = ime;
     }
+
+    Zapis(){
+
+    }
+
+    int getBroj(){
+        return broj;
+    }
+
+    string getIme(){
+        return ime;
+    }
+
+    bool operator<(Zapis& other){
+        if (broj < other.broj){
+            return true;
+        }
+        return false;
+    }
+
+    bool operator>(Zapis& other){
+        if (broj > other.broj){
+            return true;
+        }
+        return false;
+    }
+
+    friend ostream& operator<<(ostream& o, const Zapis& X);
 
 };
 
-void swap(Zapis& prvi, Zapis& drugi){
-    Zapis pomocni = prvi;
-    prvi = drugi;
-    drugi = pomocni;
+void insertionSort(Zapis A[], int n, char smjer){
+
+    int j;
+    for (int i = 1; i < n; i++){
+        Zapis tmp = A[i];
+        for (j = i; j >= 1 && A[j - 1] > tmp; j--){
+            A[j] = A[j - 1];
+        }
+        A[j] = tmp;
+    }
 }
 
-void insertionSort(Zapis A[], int n, char smjer){
-    if (n <= 0){
-        return;
-    }
-
-    if (smjer == 0){   //uzlazno sortiranje
-        for (int i = 0; i < n - 1; i++){
-            int minIdx = i;
-            for (int j = i + 1; j < n; j++){
-                if (A[j].postanski_broj < A[minIdx].postanski_broj)
-                    minIdx = j;
-            }
-            swap(A[i], A[minIdx]);
-        }
-
-
-    }
-    else{
-        for (int i = 0; i < n - 1; i++){
-            int maxIdx = i;
-            for (int j = i + 1; j < n; j++){
-                if (A[j].postanski_broj > A[maxIdx].postanski_broj)
-                    maxIdx = j;
-            }
-            swap(A[i], A[maxIdx]);
-        }
-    }
+ostream& operator<<(ostream& o, const Zapis& X){
+    return o << "broj: " << X.broj << " ime: " << X.ime;
 }
 
 int main(){
-
     Zapis z1(52210, "Rovinj");
-    Zapis z2(10001, "Zagreb");
-    Zapis z3(21000, "Rijeka");
-    Zapis z4(76321, "Zagorje");
+    Zapis z2(10000, "Zagreb");
+    Zapis z3(52000, "Pula");
+    Zapis z4(123232, "MB");
+    Zapis z5(32123, "ZD");
 
-    Zapis polje[4] = {z1, z2, z3, z4};
+    int n = 5;
+    Zapis polje[n] = {z1, z2, z3, z4, z5};
 
-    cout << "Prije sorta: " << endl;
-    for (int i = 0; i < 4; i++){
-        cout << "Postanski broj: " << polje[i].postanski_broj << " Mjesto: " << polje[i].mjesto << endl;
+    cout << "Prije: " << endl;
+    for (int i = 0; i < n; i++){
+        cout << polje[i] << endl;
     }
-
-    char smjer = 1;
-    insertionSort(polje, 4, smjer);
     cout << endl;
 
-    cout << "Poslije sorta: " << endl;
-    for (int i = 0; i < 4; i++){
-        cout << "Postanski broj: " << polje[i].postanski_broj << " Mjesto: " << polje[i].mjesto << endl;
-    }
+    insertionSort(polje, n, 0);
 
+    cout << "Poslije: " << endl;
+    for (int i = 0; i < n; i++){
+        cout << polje[i] << endl;
+    }
 
     return 0;
 }

@@ -1,31 +1,22 @@
 #include <iostream>
+#include <string>
 
 using namespace std;
 
 class Vozilo{
-public:
+private:
     string model;
     int godina;
-
+public:
     Vozilo(string model, int godina){
         this->model = model;
         this->godina = godina;
     }
+    Vozilo(){
 
-    friend bool operator<(const Vozilo& first, const Vozilo& second){
-        if (first.model < second.model){
-            return true;
-        }
-        if (first.model == second.model){
-            if (first.godina < second.godina){
-                return true;
-            }
-        }
-
-        return false;
     }
 
-    bool operator <(const Vozilo& other){
+    bool operator<(Vozilo& other){
         if (model < other.model){
             return true;
         }
@@ -34,11 +25,10 @@ public:
                 return true;
             }
         }
-
         return false;
     }
 
-    bool operator >(const Vozilo& other){
+    bool operator>(Vozilo& other){
         if (model > other.model){
             return true;
         }
@@ -47,32 +37,37 @@ public:
                 return true;
             }
         }
-
         return false;
     }
+
+    friend ostream& operator<<(ostream& o, const Vozilo& X);
 
 
 };
 
-void Zamijeni(Vozilo& prvi, Vozilo& drugi){
-    Vozilo tmp = prvi;
-    prvi = drugi;
-    drugi = tmp;
+ostream& operator<<(ostream& o, const Vozilo& X){
+    return o << "Model: " << X.model << " Godina: " << X.godina;
 }
 
-template<typename T>
+template <typename T>
+void SwapM(T& prvi, T& drugi){
+    T pomocni = prvi;
+    prvi = drugi;
+    drugi = pomocni;
+}
+
+template <typename T>
 void SelectionSort(T A[], int n){
     for (int i = 0; i < n - 1; i++){
-        int minIdx = i;
-        for (int j = i; j < n; j++){
-            if (A[j] < A[minIdx]){
-                minIdx = j;
+        int min = i;
+        for (int j = i + 1; j < n; j++){
+            if (A[min] > A[j]){
+                min = j;
             }
         }
-        Zamijeni(A[i], A[minIdx]);
+        SwapM(A[min], A[i]);
     }
 }
-
 
 int main(){
 
@@ -83,20 +78,23 @@ int main(){
     Vozilo v5("BMW", 1985);
     Vozilo v6("Merdesec", 1983);
 
-    Vozilo vozila[6] = {v1, v2, v3, v4, v5, v6};
+    int n = 6;
+    Vozilo polje[n] = {v1, v2, v3, v4, v5, v6};
 
-    cout << "Prije Sorta: " << endl;
-    for (int i = 0; i < 6; i++){
-        cout << vozila[i].model << " " << vozila[i].godina << endl;
+    cout << "Prije: " << endl;
+    for (int i = 0; i < n; i++){
+        cout << polje[i] << endl;
     }
-
-    SelectionSort(vozila, 6);
     cout << endl;
 
-    cout << "Poslije sorta: " << endl;
-    for (int i = 0; i < 6; i++){
-        cout << vozila[i].model << " " << vozila[i].godina << endl;
+    SelectionSort<Vozilo>(polje, n);
+
+    cout << "Poslije: " << endl;
+    for (int i = 0; i < n; i++){
+        cout << polje[i] << endl;
     }
+
+
 
     return 0;
 }

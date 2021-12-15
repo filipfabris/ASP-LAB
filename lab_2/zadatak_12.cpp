@@ -1,63 +1,58 @@
 #include <iostream>
+#include <string>
 
 using namespace std;
 
 class Osoba{
-public:
+private:
     string ime;
-    int godina;
-
-    Osoba(string ime, int godina){
+    int godine;
+public:
+    Osoba(string ime, int godine){
         this->ime = ime;
-        this->godina = godina;
+        this->godine = godine;
+    }
+    Osoba(){
+
     }
 
-    friend bool operator<(const Osoba& first, const Osoba& second){
-        if (first.godina < second.godina){
+    bool operator<(Osoba& other){
+        if (godine < other.godine){
             return true;
         }
-        if (first.godina == second.godina){
-            if (first.ime < second.ime){
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    bool operator <(const Osoba& other){
-        if (godina < other.godina){
-            return true;
-        }
-        if (godina == other.godina){
+        if (godine == other.godine){
             if (ime < other.ime){
                 return true;
             }
         }
-
         return false;
     }
 
-    bool operator >(const Osoba& other){
-        if (godina > other.godina){
+    bool operator>(Osoba& other){
+        if (godine > other.godine){
             return true;
         }
-        if (godina == other.godina){
+        if (godine == other.godine){
             if (ime > other.ime){
                 return true;
             }
         }
-
         return false;
     }
 
+    friend ostream& operator<<(ostream& o, const Osoba& x);
+
+
 
 };
+ostream& operator<<(ostream& o, const Osoba& x){
+    return o << "Godine: " << x.godine << " Ime: " << x.ime;
+}
 
-template<typename T>
+template <typename T>
 void InsertionSort(T A[], int n){
-    int i, j, tmp;
-    for (i = 1; i < n; i++){
+    int j;
+    for (int i = 1; i < n; i++){
         T tmp = A[i];
         for (j = i; j >= 1 && A[j - 1] > tmp; j--){
             A[j] = A[j - 1];
@@ -75,20 +70,25 @@ int main(){
     Osoba o4("Lidija", 22);
     Osoba o5("Pero", 19);
 
-    Osoba osobe[5] = {o1, o2,o3, o4, o5};
+    int n = 5;
+    Osoba polje[5] = {o1, o2, o3, o4, o5};
 
-    cout << "Prije Sorta: " << endl;
-    for (int i = 0; i < 5; i++){
-        cout << osobe[i].ime << " " << osobe[i].godina << endl;
+    cout << "Prije: " << endl;
+    for (int i = 0; i < n; i++){
+        cout << polje[i] << endl;
     }
-
-    InsertionSort(osobe, 5);
     cout << endl;
 
-    cout << "Poslije sorta: " << endl;
-    for (int i = 0; i < 5; i++){
-        cout << osobe[i].ime << osobe[i].godina << endl;
+    InsertionSort<Osoba>(polje, n);
+
+    cout << "Poslije: " << endl;
+    for (int i = 0; i < n; i++){
+        cout << polje[i] << endl;
     }
+
+
+
+
 
     return 0;
 }
